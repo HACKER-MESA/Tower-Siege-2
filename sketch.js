@@ -1,132 +1,95 @@
-
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
-const Body = Matter.Body;
-const Render = Matter.Render;
-const Constraint=Matter.Constraint;
-var treeObj, stoneObj,groundObject, launcherObject;
-var mango1,mango2,mango3,mango4,mango5,mango6,mango7,mango8,mango9,mango10,mango11,mango12;
-var world,boy;
-var launchingForce=100;
+const Constraint = Matter.Constraint;
 
-function preload(){
-	boy=loadImage("images/boy.png");
-  }
+var engine, world;
+var ground, sling, ball;
+var stand1, stand2;
+var box1, box2, box3, box4, box5, box6, box7, box8, box9, box10, box11, box12, box13, box14, box15;
+var py1, py2, py3, py4, py5;
 
 function setup() {
-	createCanvas(1300, 600);
-	engine = Engine.create();
-	world = engine.world;
-
-	stoneObj=new stone(235,420,30); 
-
-	mango1=new mango(1100,100,30);
-  mango2=new mango(1170,130,30);
-	mango3=new mango(1010,140,30);
-	mango4=new mango(1000,70,30);
-	mango5=new mango(1100,70,30);
-	mango6=new mango(1000,230,30);
-	mango7=new mango(900,230,40);
-	mango8=new mango(1140,150,40);
-	mango9=new mango(1100,230,40);
-	mango10=new mango(1200,200,40);
-	mango11=new mango(1120,50,40);
-	mango12=new mango(900,160,40);
-
-	treeObj=new tree(1050,580);
-	groundObject=new ground(width/2,600,width,20);
-	launcherObject=new launcher(stoneObj.body,{x:235,y:420})
-  var render = Render.create({
-    element: document.body,
-    engine: engine,
-    options: {
-      width: 1300,
-      height: 600,
-      wireframes: false
-    }
-  });
-	
-	Engine.run(engine);
- // Render.run(render);
+  createCanvas(1300, 400);
+  engine = Engine.create();
+  world = engine.world;
+  ground = new Ground(750, 375, 1500, 50);
+  box1 = new Box(400, 230, 50, 50);
+  box2 = new Box(450, 230, 50, 50);
+  box3 = new Box(500, 230, 50, 50);
+  box4 = new Box(550, 230, 50, 50);
+  box5 = new Box(600, 230, 50, 50);
+  box6 = new Box(425, 180, 50, 50);
+  box7 = new Box(475, 180, 50, 50);
+  box8 = new Box(525, 180, 50, 50);
+  box9 = new Box(575, 180, 50, 50);
+  box10 = new Box(450, 130, 50, 50);
+  box11 = new Box(500, 130, 50, 50);
+  box12 = new Box(550, 130, 50, 50);
+  box13 = new Box(475, 80, 50, 50);
+  box14 = new Box(525, 80, 50, 50);
+  box15 = new Box(500, 30, 50, 50);
+  py1 = new Box(845, 150, 50, 50);
+  py2 = new Box(895, 150, 50, 50);
+  py3 = new Box(945, 150, 50, 50);
+  py4 = new Box(870, 100, 50, 50);
+  py5 = new Box(920, 100, 50, 50);
+  py6 = new Box(895, 50, 50, 50);
+  ball = new Polygon(100, 100, 30);
+  stand1 = new Ground(500, 270, 300, 20);
+  stand2 = new Ground(900, 200, 300, 20);
+  sling = new Sling(ball.body, { x: 200, y: 250 })
 }
 
 function draw() {
-
-  background(230);
-  //frameRate(2)
- // Engine.update(engine)
-  textSize(25);
-  text("Press Space to get a second Chance to Play!!",50 ,50);
-  image(boy ,200,340,200,300);
-  //Engine.update(engine)
-  
-
-  treeObj.display();
-  stoneObj.display();
-  mango1.display();
-  mango2.display();
-  mango3.display();
-  mango4.display();
-  mango6.display();
- mango7.display();
-  mango8.display();
-  mango9.display();
-  mango10.display();
-  mango11.display();
-  mango12.display();
-  stoneObj.display();
-
-  groundObject.display();
-  launcherObject.display();
-  detectollision(stoneObj,mango1);
-  detectollision(stoneObj,mango2);
-  detectollision(stoneObj,mango3);
-  detectollision(stoneObj,mango4);
-  detectollision(stoneObj,mango5);
-  detectollision(stoneObj,mango6);
-  detectollision(stoneObj,mango7);
-  detectollision(stoneObj,mango8);
-  detectollision(stoneObj,mango9);
-  detectollision(stoneObj,mango10);
-  detectollision(stoneObj,mango11);
-  detectollision(stoneObj,mango12);
+  background(0);
+  Engine.update(engine);
+  rectMode(CENTER);
+  ground.display();
+  box1.display("red", "pink");
+  box2.display("red", "pink");
+  box3.display("red", "pink");
+  box4.display("red", "pink");
+  box5.display("red", "pink");
+  box6.display("indigo", "pink");
+  box7.display("indigo", "pink");
+  box8.display("indigo", "pink");
+  box9.display("indigo", "pink");
+  box10.display("green", "pink");
+  box11.display("green", "pink");
+  box12.display("green", "pink");
+  box13.display("orange", "pink");
+  box14.display("orange", "pink");
+  box15.display("saffron", "pink");
+  py1.display(rgb(229, 116, 117), "cyan")
+  py2.display(rgb(229, 116, 117), "cyan")
+  py3.display(rgb(229, 116, 117), "cyan")
+  py4.display(rgb(110, 71, 102), "cyan")
+  py5.display(rgb(110, 71, 102), "cyan")
+  py6.display(rgb(251, 189, 76), "cyan")
+  sling.display("limegreen");
+  stand1.display();
+  stand2.display();
+  ball.display("darkblue", "orange");
+  textSize(35);
+  fill(0);
+  text("DRAG AND RELEASE THE BALL TO DESTROY THE BOXES", 150, 385)
+  fill("orange");
+  textSize(20);
+  text("PRESS SPACE FOR A SECOND CHANCE !!",20,20)
 }
 
-function mouseDragged()
-{
-	Matter.Body.setPosition(stoneObj.body, {x:mouseX, y:mouseY}) 
+function mouseDragged() {
+  Matter.Body.setPosition(ball.body, { x: mouseX, y: mouseY })
 }
 
-function mouseReleased()
-{
-	launcherObject.fly();
-    // distance=int(dist(stoneObj.x,stoneObj.y,mango1.x,mango1.y));
+
+function mouseReleased() {
+  sling.fly();
 }
 
 function keyPressed() {
-	if (keyCode === 32) {
-    Matter.Body.setPosition(stoneObj.body, {x:235, y:420}) 
-	  launcherObject.attach(stoneObj.body);
-	}
+  if (keyCode === 32) {
+    sling.attach(ball.body);
   }
-
-  function detectollision(lstone,lmango){
-	/*var collision = Matter.SAT.collides(lstone,lmango);
-	if(collision.collided){
-		console.log("collided");
-		Matter.Body.setStatic(lmango,false);	
-	}*/
-  mangoBodyPosition=lmango.body.position
-  stoneBodyPosition=lstone.body.position
-  
-  var distance=dist(stoneBodyPosition.x, stoneBodyPosition.y, mangoBodyPosition.x, mangoBodyPosition.y)
-  //console.log(distance)
- // console.log(lmango.r+lstone.r)
-  	if(distance<=lmango.r+lstone.r)
-    {
-      //console.log(distance);
-  	  Matter.Body.setStatic(lmango.body,false);
-    }
-
-  }
+}
